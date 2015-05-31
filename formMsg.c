@@ -1,21 +1,19 @@
-char* formMsg(DistanceVectorEntry entry)
+char* formMsg(mapc_int* dv)
 {
 	char* msg = (char *)calloc(1024, sizeof(char));
-	strcat(msg,"|");
-	strcat(msg, entry.nodeName);
-
-	char *buffer = (char*) calloc(50, sizeof(char));
-	sprintf(buffer, "/%hd",entry.cost);
-	strcat(msg, buffer);
-
-	if (buffer)
+	for(mapc_int::iterator it = (*dv).begin(); it != (*dv).end(); it++)
 	{
-		free(buffer);
+		strcat(msg,"|");
+		strcat(msg, it->first);
+
+		char *buffer = (char*) calloc(50, sizeof(char));
+		sprintf(buffer, "/%hd",it->second);
+		strcat(msg, buffer);
+		if (buffer)
+		{
+			free(buffer);
+		}
 	}
-	
-	buffer = (char*) calloc(50,sizeof(char));
-	sprintf(buffer,"/%hd", entry.port);
-	strcat(msg, buffer);
 
 	return msg;
 
