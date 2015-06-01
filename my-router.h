@@ -9,7 +9,6 @@
 #include <sstream>
 #include <vector>
 #include <string>
-#include <boost/serialization/unordered_map.hpp>
 
 typedef struct
 {
