@@ -197,6 +197,27 @@ void router::handle_msg(char* t_msg, int msg_len)
 	}
 }
 
+void router::handle_forward_msg(char* t_msg, char destination)
+{
+	mapc_rt::iterator it = rt.find(destination);
+	if (it != rt.end())
+	{
+		struct sockaddr_in normal_msg;
+		normal_msg.sin_family = AF_INET;
+		//forward to next_hop
+		unsigned short fwd_port = name_to_port((it->second).next_hop);
+		normal_msg.sin_port = htons(fwd_port);
+		normal_msg.sin_addr.s_addr = htonl(0x7F000001); 
+
+		if(sendto(s,t_msg,strlen(t_msg),0,(struct sockaddr *)&normal_msg,sizeof(normal_msg)) < 0) 
+			std::cout << "send message failed" << std::endl;
+		
+	}
+
+}
+
+
+
 //TODO: more error checking
 //return 1 on error, 0 on success
 //<source router, destination router, source UDP port, link cost>
