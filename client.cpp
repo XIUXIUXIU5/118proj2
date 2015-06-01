@@ -4,7 +4,7 @@
 #include <string.h>
 using namespace std;
 
-#define PORT 10001
+#define PORT 10005
 #define BUFSIZE 1024
 
 int main()
@@ -28,7 +28,7 @@ int main()
 
 	//server info
 	socklen_t servaddr_len = sizeof(servaddr);
-	char* msg = "Hello this is a test";
+	char* msg = "D-C|D/3|B/1";
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_port = htons(10000);
 	servaddr.sin_addr.s_addr = htonl(0x7F000001);
