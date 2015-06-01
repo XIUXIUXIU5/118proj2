@@ -9,7 +9,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
-#include <boost/serialization/unordered_map.hpp>
+//#include <boost/serialization/unordered_map.hpp>
 
 typedef struct
 {
@@ -49,6 +49,7 @@ class router
 		void update_rt(char sender_name, mapc_int* rcvd_dv);
 		bool update_dv();
 		unsigned short name_to_port(char name);
+		void handle_forward_msg(char* t_msg, char destination);
 
 };
 
