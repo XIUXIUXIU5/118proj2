@@ -212,7 +212,10 @@ void router::handle_forward_msg(char* t_msg, char destination)
 		normal_msg.sin_addr.s_addr = htonl(0x7F000001); 
 
 		if(sendto(s,t_msg,strlen(t_msg),0,(struct sockaddr *)&normal_msg,sizeof(normal_msg)) < 0) 
-			std::cout << "send message failed" << std::endl;
+		{	std::cout << "send message failed" << std::endl;
+			exit(1);
+		}
+
 		
 	}
 
@@ -333,7 +336,7 @@ void router::run_router()
 		else{
 			if (FD_ISSET(s,&fds))
 			{
-				std::cout<<"select receiving"<<std::endl;
+				std::cout<<"select recieving"<<std::endl;
 
 				std::cout << "Waiting on port: " << server_port << std::endl;
 				rec_len = recvfrom(s, buf, BUFSIZE, 0, (struct sockaddr *)&claddr, &claddr_len);
@@ -378,9 +381,10 @@ void router::broadcast()
 			myaddr.sin_family = AF_INET;
 			myaddr.sin_addr.s_addr = htonl(0); //equivalent to INADDR_ANY
 			myaddr.sin_port = htons(name_to_port(*it));
-			if (sendto(socketn, msg, strlen(msg), 0, (struct sockaddr *)&myaddr, (socklen_t)sizeof(myaddr)))	
+			if (sendto(socketn, msg, strlen(msg), 0, (struct sockaddr *)&myaddr, (socklen_t)sizeof(myaddr)) < 0)	
 			{
 				std::cout<<server_name<<"fail to send dv to "<<*it<<std::endl;
+				exit(1);
 			}
 
 			std::cout<<server_name<<"send dv to "<<*it<<std::endl;
