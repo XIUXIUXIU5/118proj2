@@ -49,6 +49,8 @@ class router
 		bool update_dv();
 		unsigned short name_to_port(char name);
 		void handle_forward_msg(char* t_msg, char destination);
+		void broadcast();
+
 
 };
 
