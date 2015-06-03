@@ -3,15 +3,20 @@
 #include <time.h>
 #include <sys/time.h>
 
-//TODO: port should be read from topology file
-//#define PORT 10000
+//TODO: forward normal packets, respond to dead routers, log properly
+//TODO: be able to introduce packet into flow from X to Y
+//TODO: Makefile generate two binaries, otherwise mod main to be like client
 #define BUFSIZE 1024
 
-void router::test()
+void router::print_dv(mapc_int* rdv)
 {
-	for(mapc_int::iterator it = dv.begin(); it != dv.end(); it++)
+	for(mapc_int::iterator it = (*rdv).begin(); it != (*rdv).end(); it++)
 		std::cout << "Router " << it->first << ", Cost " << it->second << std::endl;
+	std::cout << std::endl;
+}
 
+void router::print_rt(mapc_rt* rrt)
+{
 	for(mapc_rt::iterator it = rt.begin(); it != rt.end(); it++)
 	{
 		std::cout << "Router" << it->first << std::endl;
@@ -20,18 +25,30 @@ void router::test()
 		std::cout << "\tDestination port: " << (it->second).dest_port << std::endl;
 		std::cout << "\tNext hop: " << (it->second).next_hop << std::endl;
 	}
+	std::cout << std::endl;
+}
 
-	std::cout << "Neighbors:" << std::endl;
+void router::test()
+{
+
+	std::cout << "DV:" << std::endl;
+	print_dv(&dv);
+
+	std::cout << "\nRouting Table:" << std::endl;
+	print_rt(&rt);
+
+	std::cout << "\nNeighbors:" << std::endl;
 	for(int i=0; i<nb.size(); i++)
 		std::cout << "\t" << nb[i] << std::endl;
+	std::cout << std::endl;
 
-	std::string msg = form_msg();
-	std::cout << "DV msg format: " << msg << std::endl;
+	// std::string msg = form_msg();
+	// std::cout << "DV msg format: " << msg << std::endl;
 
-	mapc_int tdv = parse_msg(msg);
-	std::cout << "Parsed info: \n";
-	for(mapc_int::iterator it = tdv.begin(); it != tdv.end(); it++)
-		std::cout << "Router " << it->first << ", Cost " << it->second << std::endl;
+	// mapc_int tdv = parse_msg(msg);
+	// std::cout << "Parsed info: \n";
+	// for(mapc_int::iterator it = tdv.begin(); it != tdv.end(); it++)
+	// 	std::cout << "Router " << it->first << ", Cost " << it->second << std::endl;
 }
 
 unsigned short router::name_to_port(char name)
@@ -162,10 +179,20 @@ bool router::update_dv()
 
 void router::handle_dv_update(std::string msg, char sender_name)
 {
+	std::cout << "Recieved updated DV from " << sender_name << std::endl;
+	std::cout << "Timestamp: " << time(NULL) << std::endl;
+	std::cout << "Routing table before change" << std::endl;
+	print_rt(&rt);
+	
+	std::cout << "DV that caused change" << std::endl;
 	mapc_int rcvd_dv = parse_msg(msg); //get the sent DV
-	update_rt(sender_name, &rcvd_dv);
-	bool update_nb = update_dv();
+	print_dv(&rcvd_dv);
 
+	std::cout << "New routing table" << std::endl;
+	update_rt(sender_name, &rcvd_dv);
+	print_rt(&rt);
+
+	bool update_nb = update_dv();
 	//send updated dv to neighbors only if dv changed
 	if(!update_nb)
 		return;
@@ -187,20 +214,23 @@ void router::handle_dv_update(std::string msg, char sender_name)
 	}
 }
 
-void router::handle_msg(char* t_msg, int msg_len)
+void router::handle_forward_msg(std::string msg, char sender_name)
 {
-	std::string msg = t_msg;
-	if(msg[0] == 'D') //a DV message
-		handle_dv_update(msg, msg[2]);
-	else //a packet to forward
+	std::cout << "Recieved data packet from " << sender_name << std::endl;
+	std::cout << "Timestamp: " << time(NULL) << std::endl;
+	std::cout << "Packet arrived from port: " << name_to_port(sender_name)
+			  << std::endl; 
+	//P-SRCNODE|DESTNODE|DATA
+	char destination = msg[4];
+	std::cout << "Destination router: " << destination << std::endl;
+	if(destination == server_name) //packet meant for us
 	{
-		//create function to forward packet
-		//TODO: define packet structure
+		std::cout << "Data: " << msg.substr(6) << std::endl;
+		std::cout << std::endl;
+		return;
 	}
-}
+	msg[2] = server_name; //update packet to send
 
-void router::handle_forward_msg(char* t_msg, char destination)
-{
 	mapc_rt::iterator it = rt.find(destination);
 	if (it != rt.end())
 	{
@@ -208,20 +238,41 @@ void router::handle_forward_msg(char* t_msg, char destination)
 		normal_msg.sin_family = AF_INET;
 		//forward to next_hop
 		unsigned short fwd_port = name_to_port((it->second).next_hop);
+		std::cout << "Forward port: " << fwd_port << std::endl;
+
 		normal_msg.sin_port = htons(fwd_port);
 		normal_msg.sin_addr.s_addr = htonl(0x7F000001); 
 
+
+		const char* t_msg = msg.c_str();
 		if(sendto(s,t_msg,strlen(t_msg),0,(struct sockaddr *)&normal_msg,sizeof(normal_msg)) < 0) 
 		{	std::cout << "send message failed" << std::endl;
 			exit(1);
 		}
-
-		
 	}
-
+	else
+		std::cout << "Can not forward packet" << std::endl;
+	std::cout << std::endl;
 }
 
-
+void router::handle_msg(char* t_msg, int msg_len)
+{
+	std::string msg = t_msg;
+	if(msg[0] == 'D') //a DV message
+		handle_dv_update(msg, msg[2]);
+	else if(msg[0] == 'P')//a packet to forward
+	{
+		//create function to forward packet
+		//packet structure:
+		//P-SRCNODE|DESTNODE|DATA
+		handle_forward_msg(msg, msg[2]);
+	}
+	else
+	{
+		std::cout << "Invalid packet recieved" << std::endl;
+		std::cout << std::endl;
+	}
+}
 
 //TODO: more error checking
 //return 1 on error, 0 on success
@@ -272,7 +323,7 @@ void router::initialize(char* tp_file)
 
 void router::run_router()
 {
-	std::cout <<"\n\n\nstart-router"<<std::endl;
+	std::cout <<"\n\n\nstart-router\n"<<std::endl;
 	int count = 0;
 
 	struct sockaddr_in myaddr;
@@ -327,7 +378,7 @@ void router::run_router()
 		{
 			//send the dvs;
 
-			std::cout<< "\nselct broadcast"<<count<<std::endl;
+			std::cout<< "\nselect broadcast "<<count<<std::endl;
 			broadcast();
 			timeout.tv_sec = 5;
 			timeout.tv_usec = 0;
@@ -343,9 +394,10 @@ void router::run_router()
 				std::cout << "Recieved " << rec_len << " bytes" << std::endl;
 				if(rec_len > 0) {
 					buf[rec_len] = 0;
-					std::cout << "Message recieved: " << buf << std::endl;
+					std::cout << std::endl;
 					//need to handle msg: decide if DV update or packet
 					handle_msg(buf,rec_len);
+					//test();
 		}			
 	}
 			
@@ -369,7 +421,7 @@ void router::broadcast()
 
 	int option = 1;
 	if (setsockopt(socketn, SOL_SOCKET, SO_REUSEADDR, (char*)&option, sizeof(int))<0) {
-		std::cout<<"fail to set the socket option";
+		std::cout<<"fail to set the socket option" << std::endl;
     	exit(1);
     }
 
@@ -383,13 +435,13 @@ void router::broadcast()
 			myaddr.sin_port = htons(name_to_port(*it));
 			if (sendto(socketn, msg, strlen(msg), 0, (struct sockaddr *)&myaddr, (socklen_t)sizeof(myaddr)) < 0)	
 			{
-				std::cout<<server_name<<"fail to send dv to "<<*it<<std::endl;
+				std::cout<<server_name<<" fail to send dv to "<<*it<<std::endl;
 				exit(1);
 			}
 
-			std::cout<<server_name<<"send dv to "<<*it<<std::endl;
+			std::cout<<server_name<<" send dv to "<<*it<<std::endl;
 	}
-
+	std::cout << std::endl;
 
 }
 

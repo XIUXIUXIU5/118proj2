@@ -1,0 +1,1527 @@
+DV:
+Router B, Cost 2
+Router F, Cost 3
+Router A, Cost 1
+
+
+Routing Table:
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: F
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+
+Neighbors:
+	A
+	B
+	F
+
+
+
+
+start-router
+
+
+select broadcast 0
+broadcast
+E send dv to A
+E send dv to B
+E send dv to F
+
+select recieving
+Waiting on port: 10004
+Recieved 19 bytes
+
+Recieved updated DV from B
+Timestamp: 1433308104
+Routing table before change
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: F
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router A, Cost 3
+Router F, Cost 1
+Router C, Cost 3
+Router E, Cost 2
+
+New routing table
+RouterC
+	Cost: 5
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+propagated DV to router A
+propagated DV to router B
+propagated DV to router F
+select recieving
+Waiting on port: 10004
+Recieved 11 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308104
+Routing table before change
+RouterC
+	Cost: 5
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+
+New routing table
+RouterC
+	Cost: 5
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 19 bytes
+
+Recieved updated DV from F
+Timestamp: 1433308104
+Routing table before change
+RouterC
+	Cost: 5
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 1
+Router C, Cost 1
+Router D, Cost 3
+Router E, Cost 3
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: F
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: F
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+propagated DV to router A
+propagated DV to router B
+propagated DV to router F
+select recieving
+Waiting on port: 10004
+Recieved 19 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308104
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: F
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: F
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+Router C, Cost 6
+Router F, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: F
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: F
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from B
+Timestamp: 1433308104
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: F
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: F
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router A, Cost 3
+Router F, Cost 1
+Router C, Cost 3
+Router E, Cost 2
+Router D, Cost 5
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: F
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: F
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308104
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: F
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: F
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+Router C, Cost 6
+Router F, Cost 4
+Router D, Cost 8
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: F
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: F
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from B
+Timestamp: 1433308104
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: F
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: F
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router A, Cost 3
+Router F, Cost 1
+Router C, Cost 2
+Router E, Cost 2
+Router D, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308104
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+Router C, Cost 5
+Router F, Cost 4
+Router D, Cost 7
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from F
+Timestamp: 1433308104
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 1
+Router C, Cost 1
+Router D, Cost 3
+Router E, Cost 3
+Router A, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+
+select broadcast 1
+broadcast
+E send dv to A
+E send dv to B
+E send dv to F
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308109
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+Router C, Cost 5
+Router F, Cost 4
+Router D, Cost 7
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from B
+Timestamp: 1433308109
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router A, Cost 3
+Router F, Cost 1
+Router C, Cost 2
+Router E, Cost 2
+Router D, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from F
+Timestamp: 1433308109
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 1
+Router C, Cost 1
+Router D, Cost 3
+Router E, Cost 3
+Router A, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+
+select broadcast 2
+broadcast
+E send dv to A
+E send dv to B
+E send dv to F
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from B
+Timestamp: 1433308114
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router A, Cost 3
+Router F, Cost 1
+Router C, Cost 2
+Router E, Cost 2
+Router D, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308114
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+Router C, Cost 5
+Router F, Cost 4
+Router D, Cost 7
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from F
+Timestamp: 1433308114
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 1
+Router C, Cost 1
+Router D, Cost 3
+Router E, Cost 3
+Router A, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+
+select broadcast 3
+broadcast
+E send dv to A
+E send dv to B
+E send dv to F
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308119
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+Router C, Cost 5
+Router F, Cost 4
+Router D, Cost 7
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+
+select broadcast 4
+broadcast
+E send dv to A
+E send dv to B
+E send dv to F
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308124
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+Router C, Cost 5
+Router F, Cost 4
+Router D, Cost 7
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+
+select broadcast 5
+broadcast
+E send dv to A
+E send dv to B
+E send dv to F
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from A
+Timestamp: 1433308129
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 3
+Router E, Cost 1
+Router C, Cost 5
+Router F, Cost 4
+Router D, Cost 7
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from F
+Timestamp: 1433308129
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 1
+Router C, Cost 1
+Router D, Cost 3
+Router E, Cost 3
+Router A, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from B
+Timestamp: 1433308129
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router A, Cost 3
+Router F, Cost 1
+Router C, Cost 2
+Router E, Cost 2
+Router D, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+
+select broadcast 6
+broadcast
+E send dv to A
+E send dv to B
+E send dv to F
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from F
+Timestamp: 1433308134
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router B, Cost 1
+Router C, Cost 1
+Router D, Cost 3
+Router E, Cost 3
+Router A, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+select recieving
+Waiting on port: 10004
+Recieved 23 bytes
+
+Recieved updated DV from B
+Timestamp: 1433308134
+Routing table before change
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+
+DV that caused change
+Router A, Cost 3
+Router F, Cost 1
+Router C, Cost 2
+Router E, Cost 2
+Router D, Cost 4
+
+New routing table
+RouterD
+	Cost: 6
+	Outgoing port: 10004
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 4
+	Outgoing port: 10004
+	Destination port: 10002
+	Next hop: B
+RouterB
+	Cost: 2
+	Outgoing port: 10004
+	Destination port: 10001
+	Next hop: B
+RouterF
+	Cost: 3
+	Outgoing port: 10004
+	Destination port: 10004
+	Next hop: B
+RouterA
+	Cost: 1
+	Outgoing port: 10004
+	Destination port: 10000
+	Next hop: A
+

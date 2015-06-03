@@ -48,10 +48,10 @@ class router
 		void update_rt(char sender_name, mapc_int* rcvd_dv);
 		bool update_dv();
 		unsigned short name_to_port(char name);
-		void handle_forward_msg(char* t_msg, char destination);
+		void handle_forward_msg(std::string msg, char sender_name);
 		void broadcast();
-
-
+		void print_dv(mapc_int* rdv);
+		void print_rt(mapc_rt* rrt);
 };
 
 #endif

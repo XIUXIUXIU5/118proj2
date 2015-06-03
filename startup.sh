@@ -1,5 +1,5 @@
 #!/bin/sh
-for s in "A" "B"
+for s in "A" "B" "C" "D" "E" "F"
 do
-	./router $s tplg &
+	./router $s gtpl &
 done
