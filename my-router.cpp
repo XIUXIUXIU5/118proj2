@@ -3,9 +3,7 @@
 #include <time.h>
 #include <sys/time.h>
 
-//TODO: forward normal packets, respond to dead routers, log properly
-//TODO: be able to introduce packet into flow from X to Y
-//TODO: Makefile generate two binaries, otherwise mod main to be like client
+//TODO: respond to dead routers
 #define BUFSIZE 1024
 
 void router::print_dv(mapc_int* rdv)
@@ -17,7 +15,7 @@ void router::print_dv(mapc_int* rdv)
 
 void router::print_rt(mapc_rt* rrt)
 {
-	for(mapc_rt::iterator it = rt.begin(); it != rt.end(); it++)
+	for(mapc_rt::iterator it = (*rrt).begin(); it != (*rrt).end(); it++)
 	{
 		std::cout << "Router" << it->first << std::endl;
 		std::cout << "\tCost: " << (it->second).cost << std::endl;
@@ -72,16 +70,31 @@ unsigned short router::name_to_port(char name)
     }
 }
 
-std::string router::form_msg()
+std::string router::form_msg(char type)
 {
 	std::string msg;
-	msg+="D-"; //D at front indicates that this is a DV update
+	if(type == 'U') //update
+		msg+="D-"; //D at front indicates that this is a DV update
+	if(type == 'D') //death
+		msg+="K-"; //K at front indicates that this is a death msg
 	msg+=server_name; //check where msg is coming from
-	for(mapc_int::iterator it = dv.begin(); it != dv.end(); it++)
+
+	if(type == 'U')
 	{
-		msg+='|';
-		msg+=it->first;
-		msg+='/'+std::to_string(it->second);	
+		for(mapc_int::iterator it = dv.begin(); it != dv.end(); it++)
+		{
+			msg+='|';
+			msg+=it->first;
+			msg+='/'+std::to_string(it->second);	
+		}
+	}
+	else //death msg
+	{
+		for(int i=0; i<dr.size(); i++)
+		{
+			msg+='|';
+			msg+=dr[i]; //add dead router to msg
+		}
 	}
 	return msg;
 }
@@ -116,21 +129,24 @@ mapc_int router::parse_msg(std::string msg)
 	return rcvd_dv;
 }
 
-void router::update_rt(char sender_name, mapc_int* rcvd_dv) 
+bool router::update_rt(char sender_name, mapc_int* rcvd_dv) 
 {
     // Get the node information
     int costFromTable, newCost, currentCost;
     char currentNode;
-    bool exists;
+    bool exists, isdead, rt_changed = false;
 
-    int costToNode = rt[sender_name].cost;
+    int costToNode = link_costs[sender_name]; //THIS has to be link cost!!
 
     // Iterate over the distance vector
     mapc_int::iterator it;
     for(it = (*rcvd_dv).begin(); it != (*rcvd_dv).end(); it++) 
     {
-        currentNode = it->first;
-        currentCost = it->second;
+        currentNode = it->first; //sender to curr node
+        currentCost = it->second; //cost from sender to curr node
+        isdead = (std::find(dr.begin(),dr.end(),currentNode) != dr.end());
+        if(isdead)
+        	continue;
 
         // Check if the node exists in the routing table
         if (currentNode != server_name) 
@@ -145,9 +161,13 @@ void router::update_rt(char sender_name, mapc_int* rcvd_dv)
                 {
                     rt[currentNode].cost = newCost;
                     rt[currentNode].next_hop = sender_name; 
+                    rt_changed = true;
                 }
-                else if (newCost == costFromTable && sender_name < rt[currentNode].next_hop) 
+                else if ((newCost == costFromTable) && (sender_name < rt[currentNode].next_hop)) 
+                {
                     rt[currentNode].next_hop = sender_name;
+                    rt_changed = true;
+                }
             }
             else {
                 // Add to the table
@@ -155,9 +175,11 @@ void router::update_rt(char sender_name, mapc_int* rcvd_dv)
                 rt[currentNode].next_hop = sender_name;
                 rt[currentNode].out_port = server_port;
                 rt[currentNode].dest_port = name_to_port(currentNode);
+                rt_changed = true;
             }
         }
     }
+    return rt_changed;
 }
 
 bool router::update_dv()
@@ -179,25 +201,33 @@ bool router::update_dv()
 
 void router::handle_dv_update(std::string msg, char sender_name)
 {
+	updates[sender_name]+=1; //to check for dropped msg
+	//std::cout << "Printing update counts" << std::endl;
+	//print_dv(&updates);
+	mapc_int rcvd_dv = parse_msg(msg); //get the sent DV
+	mapc_rt temp_old_rt(rt); //in case we need to print old rt
+
+	bool rt_changed = update_rt(sender_name, &rcvd_dv);
+	bool update_nb = update_dv();
+	if(!rt_changed)
+		return;
+
 	std::cout << "Recieved updated DV from " << sender_name << std::endl;
 	std::cout << "Timestamp: " << time(NULL) << std::endl;
 	std::cout << "Routing table before change" << std::endl;
-	print_rt(&rt);
+	print_rt(&temp_old_rt);
 	
 	std::cout << "DV that caused change" << std::endl;
-	mapc_int rcvd_dv = parse_msg(msg); //get the sent DV
 	print_dv(&rcvd_dv);
 
 	std::cout << "New routing table" << std::endl;
-	update_rt(sender_name, &rcvd_dv);
 	print_rt(&rt);
 
-	bool update_nb = update_dv();
 	//send updated dv to neighbors only if dv changed
 	if(!update_nb)
 		return;
 
-	std::string update_msg = form_msg();
+	std::string update_msg = form_msg('U');
 	const char* s_msg = update_msg.c_str();
 	struct sockaddr_in nb_info;
 
@@ -255,6 +285,34 @@ void router::handle_forward_msg(std::string msg, char sender_name)
 	std::cout << std::endl;
 }
 
+void router::handle_death_msg(std::string msg, char sender_name)
+{
+	std::cout << "Recieved death message from " << sender_name << std::endl;
+	std::cout << "Timestamp: " << time(NULL) << std::endl;
+	std::cout << "Packet arrived from port: " << name_to_port(sender_name)
+			  << std::endl; 
+
+	std::stringstream ss(msg);
+	std::string elem;
+	getline(ss, elem, '|'); //remove msg header
+	bool any_new = false;
+
+	while(getline(ss, elem, '|'))
+	{
+		//check if already in dead router vector
+		if(std::find(dr.begin(),dr.end(),elem[0]) != dr.end())
+			continue;
+		else
+		{
+			dr.push_back(elem[0]);
+			any_new = true;
+		}
+	}
+
+	if(any_new) //if any new dead vectors, restart
+		initialize();
+}
+
 void router::handle_msg(char* t_msg, int msg_len)
 {
 	std::string msg = t_msg;
@@ -267,6 +325,10 @@ void router::handle_msg(char* t_msg, int msg_len)
 		//P-SRCNODE|DESTNODE|DATA
 		handle_forward_msg(msg, msg[2]);
 	}
+	else if (msg[0] == 'K') //a death msg
+	{
+		handle_death_msg(msg, msg[2]);
+	}
 	else
 	{
 		std::cout << "Invalid packet recieved" << std::endl;
@@ -277,8 +339,16 @@ void router::handle_msg(char* t_msg, int msg_len)
 //TODO: more error checking
 //return 1 on error, 0 on success
 //<source router, destination router, source UDP port, link cost>
-void router::initialize(char* tp_file)
+void router::initialize()
 {
+	const char* tp_file = file.c_str();
+
+	dv.clear();
+	rt.clear();
+	nb.clear();
+	updates.clear();
+	link_costs.clear();
+
 	std::ifstream tp_info(tp_file);
 	if(!tp_info.is_open())
 	{
@@ -296,6 +366,11 @@ void router::initialize(char* tp_file)
 		if(line[0] != server_name)
 			continue;
 
+		//skip dead routers
+		vchar::iterator it = std::find(dr.begin(),dr.end(),line[2]);
+		if(it != dr.end())
+			continue;
+
 		//split by comma
 		c=0;
 		std::stringstream ss(line);
@@ -310,6 +385,7 @@ void router::initialize(char* tp_file)
 		nb.push_back(fields.at(1)[0]); //add neighbor name
 
 		dv[fields.at(1)[0]] = stoi(fields.at(3)); //store cost
+		link_costs[fields.at(1)[0]] = dv[fields.at(1)[0]];
 
 		//update routing table with neighbors
 		temp = &rt[fields.at(1)[0]];
@@ -320,6 +396,31 @@ void router::initialize(char* tp_file)
 	}
 }
 
+void router::check_dead()
+{
+	int avg_updates=0;
+	int prev_dr_size = dr.size();
+
+	for(int i=0; i<nb.size(); i++) //get update counts of neighbors
+		avg_updates += updates[nb[i]];
+	avg_updates /= nb.size();
+
+	for(int i=0; i<nb.size(); i++)
+	{
+		if(updates[nb[i]] < (avg_updates-2)) //may need to change delta
+		{
+			dr.push_back(nb[i]);
+			std::cout << "Router " << nb[i] << " died" << std::endl;
+		}
+	}
+
+	if(dr.size() > prev_dr_size)
+	{
+		initialize();
+		//propagate death msg
+		broadcast('D');
+	}
+}
 
 void router::run_router()
 {
@@ -379,7 +480,8 @@ void router::run_router()
 			//send the dvs;
 
 			std::cout<< "\nselect broadcast "<<count<<std::endl;
-			broadcast();
+			check_dead();
+			broadcast('U');
 			timeout.tv_sec = 5;
 			timeout.tv_usec = 0;
 			count++;
@@ -405,10 +507,10 @@ void router::run_router()
 	}
 }
 
-void router::broadcast()
+void router::broadcast(char type)
 {
 	std::cout<<"broadcast"<<std::endl;
-	std::string s_msg = form_msg();
+	std::string s_msg = form_msg(type);
 	const char* msg = s_msg.c_str();
 
 
@@ -435,11 +537,14 @@ void router::broadcast()
 			myaddr.sin_port = htons(name_to_port(*it));
 			if (sendto(socketn, msg, strlen(msg), 0, (struct sockaddr *)&myaddr, (socklen_t)sizeof(myaddr)) < 0)	
 			{
-				std::cout<<server_name<<" fail to send dv to "<<*it<<std::endl;
+				std::cout<<server_name<<" fail to send msg to "<<*it<<std::endl;
 				exit(1);
 			}
 
-			std::cout<<server_name<<" send dv to "<<*it<<std::endl;
+			if(type == 'U')
+				std::cout<<server_name<<" send dv to "<<*it<<std::endl;
+			else
+				std::cout<<server_name<<" send death msg to "<<*it<<std::endl;
 	}
 	std::cout << std::endl;
 
@@ -449,6 +554,7 @@ router::router(char srv_name, char* tp_file)
 {
 	server_name = srv_name;
 	server_port = name_to_port(server_name);
+	file = tp_file;
 
 	std::string log_name = "routing-output";
 	log_name+=server_name;
@@ -456,7 +562,7 @@ router::router(char srv_name, char* tp_file)
 
 	std::freopen(log_name.c_str(),"w", stdout); //log info
 
-	initialize(tp_file);
+	initialize();
 }
 
 router::~router()

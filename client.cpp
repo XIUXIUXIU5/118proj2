@@ -4,11 +4,14 @@
 #include <string.h>
 using namespace std;
 
-#define PORT 12005
+#define PORT 10000
 #define BUFSIZE 1024
 
 int main()
 {
+
+	bool ey = 'A' < 'C';
+	cout << ey << endl;
 	int s;
 	struct sockaddr_in myaddr;
 	struct sockaddr_in servaddr; //client's info
@@ -21,8 +24,8 @@ int main()
 	myaddr.sin_family = AF_INET;
 	myaddr.sin_addr.s_addr = htonl(0); //equivalent to INADDR_ANY
 	myaddr.sin_port = htons(PORT);
-	if(bind(s,(struct sockaddr *)&myaddr, sizeof(myaddr)) < 0) {
-		cerr << "bind failed" << endl;
+	if(connect(s, (struct sockaddr *) &myaddr,sizeof(myaddr)) < 0 ) {
+		cerr << "connect failed" << endl;
 		return 0;
 	}
 

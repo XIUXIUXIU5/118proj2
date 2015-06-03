@@ -35,23 +35,31 @@ class router
 		mapc_int dv; //distance std::vector: map dest name to cost
 		mapc_rt rt; //routing table: map dest name to struct of info
 		vchar nb; //neighbors
+		mapc_int link_costs;
 		int s; //socket
+		std::string file; //topology file
+
+		//for dropped routers
+		vchar dr; //dropped routers
+		mapc_int updates; //for use in checking if router is dead
 
 		char server_name;
 		unsigned short server_port;
 
-		void initialize(char* tp_file);
-		std::string form_msg();
+		void initialize();
+		std::string form_msg(char type); //U for DV update, D for death
 		mapc_int parse_msg(std::string msg);
 		void handle_msg(char* t_msg, int msg_len);
 		void handle_dv_update(std::string msg, char sender_name);
-		void update_rt(char sender_name, mapc_int* rcvd_dv);
+		bool update_rt(char sender_name, mapc_int* rcvd_dv);
 		bool update_dv();
 		unsigned short name_to_port(char name);
 		void handle_forward_msg(std::string msg, char sender_name);
-		void broadcast();
+		void broadcast(char type);
 		void print_dv(mapc_int* rdv);
 		void print_rt(mapc_rt* rrt);
+		void check_dead();
+		void handle_death_msg(std::string msg, char sender_name);
 };
 
 #endif
