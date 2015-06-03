@@ -3,7 +3,6 @@
 #include <time.h>
 #include <sys/time.h>
 
-//TODO: respond to dead routers
 #define BUFSIZE 1024
 
 void router::print_dv(mapc_int* rdv)
@@ -99,7 +98,6 @@ std::string router::form_msg(char type)
 	return msg;
 }
 
-//TODO: error checking
 mapc_int router::parse_msg(std::string msg)
 {
 	mapc_int rcvd_dv; //to create dv sent over
@@ -336,7 +334,6 @@ void router::handle_msg(char* t_msg, int msg_len)
 	}
 }
 
-//TODO: more error checking
 //return 1 on error, 0 on success
 //<source router, destination router, source UDP port, link cost>
 void router::initialize()
