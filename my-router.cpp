@@ -94,7 +94,7 @@ std::string router::form_msg(char type)
 		{
 			msg+='|';
 			msg+=it->first;
-			msg+='/'+std::to_string((long long int)it->second);	
+			msg+='/'+std::to_string((long long int)it->second);
 		}
 	}
 	else //death msg
@@ -137,7 +137,7 @@ std::unordered_map<char, int> router::parse_msg(std::string msg)
 	return rcvd_dv;
 }
 
-bool router::update_rt(char sender_name, std::unordered_map<char, int>* rcvd_dv) 
+bool router::update_rt(char sender_name, std::unordered_map<char, int>* rcvd_dv)
 {
     // Get the node information
     int costFromTable, newCost, currentCost;
@@ -148,7 +148,7 @@ bool router::update_rt(char sender_name, std::unordered_map<char, int>* rcvd_dv)
 
     // Iterate over the distance vector
     std::unordered_map<char, int>::iterator it;
-    for(it = (*rcvd_dv).begin(); it != (*rcvd_dv).end(); it++) 
+    for(it = (*rcvd_dv).begin(); it != (*rcvd_dv).end(); it++)
     {
         currentNode = it->first; //sender to curr node
         currentCost = it->second; //cost from sender to curr node
@@ -157,21 +157,21 @@ bool router::update_rt(char sender_name, std::unordered_map<char, int>* rcvd_dv)
         	continue;
 
         // Check if the node exists in the routing table
-        if (currentNode != server_name) 
+        if (currentNode != server_name)
         {
             exists = (rt.find(currentNode) != rt.end());
-            if (exists) 
+            if (exists)
             {
                 // Update if necessary
                 costFromTable = rt[currentNode].cost;
                 newCost = costToNode + currentCost;
-                if (newCost < costFromTable) 
+                if (newCost < costFromTable)
                 {
                     rt[currentNode].cost = newCost;
-                    rt[currentNode].next_hop = sender_name; 
+                    rt[currentNode].next_hop = sender_name;
                     rt_changed = true;
                 }
-                else if ((newCost == costFromTable) && (sender_name < rt[currentNode].next_hop)) 
+                else if ((newCost == costFromTable) && (sender_name < rt[currentNode].next_hop))
                 {
                     rt[currentNode].next_hop = sender_name;
                     rt_changed = true;
@@ -224,7 +224,7 @@ void router::handle_dv_update(std::string msg, char sender_name)
 	std::cout << "Timestamp: " << time(NULL) << std::endl;
 	std::cout << "Routing table before change" << std::endl;
 	print_rt(&temp_old_rt);
-	
+
 	std::cout << "DV that caused change" << std::endl;
 	print_dv(&rcvd_dv);
 
@@ -245,7 +245,7 @@ void router::handle_dv_update(std::string msg, char sender_name)
 		nb_info.sin_family = AF_INET;
 		nb_info.sin_port = htons(name_to_port(nb[i])); //nb port
 		nb_info.sin_addr.s_addr = htonl(0x7F000001); //localhost
-		if(sendto(s,s_msg,strlen(s_msg),0,(struct sockaddr *)&nb_info,sizeof(nb_info)) < 0) 
+		if(sendto(s,s_msg,strlen(s_msg),0,(struct sockaddr *)&nb_info,sizeof(nb_info)) < 0)
 			std::cout << "send message failed" << std::endl;
 		else
 			std::cout << "propagated DV to router " << nb[i] << std::endl;
@@ -257,7 +257,7 @@ void router::handle_forward_msg(std::string msg, char sender_name)
 	std::cout << "Recieved data packet from " << sender_name << std::endl;
 	std::cout << "Timestamp: " << time(NULL) << std::endl;
 	std::cout << "Packet arrived from port: " << name_to_port(sender_name)
-			  << std::endl; 
+			  << std::endl;
 	//P-SRCNODE|DESTNODE|DATA
 	char destination = msg[4];
 	std::cout << "Destination router: " << destination << std::endl;
@@ -279,11 +279,11 @@ void router::handle_forward_msg(std::string msg, char sender_name)
 		std::cout << "Forward port: " << fwd_port << std::endl;
 
 		normal_msg.sin_port = htons(fwd_port);
-		normal_msg.sin_addr.s_addr = htonl(0x7F000001); 
+		normal_msg.sin_addr.s_addr = htonl(0x7F000001);
 
 
 		const char* t_msg = msg.c_str();
-		if(sendto(s,t_msg,strlen(t_msg),0,(struct sockaddr *)&normal_msg,sizeof(normal_msg)) < 0) 
+		if(sendto(s,t_msg,strlen(t_msg),0,(struct sockaddr *)&normal_msg,sizeof(normal_msg)) < 0)
 		{	std::cout << "send message failed" << std::endl;
 			exit(1);
 		}
@@ -298,7 +298,7 @@ void router::handle_death_msg(std::string msg, char sender_name)
 	std::cout << "Recieved death message from " << sender_name << std::endl;
 	std::cout << "Timestamp: " << time(NULL) << std::endl;
 	std::cout << "Packet arrived from port: " << name_to_port(sender_name)
-			  << std::endl; 
+			  << std::endl;
 
 	std::stringstream ss(msg);
 	std::string elem;
@@ -439,17 +439,17 @@ void router::run_router()
 
 	struct sockaddr_in myaddr;
 	struct sockaddr_in claddr; //client's info
-	if((s = socket(AF_INET, SOCK_DGRAM, 0)) < 0) 
+	if((s = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 	{
 		std::cout << "cannot create socket" << std::endl;
 		exit(1);
-	} 
+	}
 
 	//bind socket to specified port
 	myaddr.sin_family = AF_INET;
 	myaddr.sin_addr.s_addr = htonl(0x7F000001); //IP addr is localhost
 	myaddr.sin_port = htons(server_port);
-	if(bind(s, (struct sockaddr *)&myaddr, sizeof(myaddr)) < 0) 
+	if(bind(s, (struct sockaddr *)&myaddr, sizeof(myaddr)) < 0)
 	{
 		std::cout << "bind failed" << std::endl;
 		exit(1);
@@ -473,7 +473,7 @@ void router::run_router()
 
 
 
-	while(1) 
+	while(1)
 	{
 		FD_SET(s,&fds);
 
@@ -510,9 +510,9 @@ void router::run_router()
 					//need to handle msg: decide if DV update or packet
 					handle_msg(buf,rec_len);
 					//test();
-		}			
+		}
 	}
-			
+
 	}
 	}
 }
@@ -545,7 +545,7 @@ void router::broadcast(char type)
 			myaddr.sin_family = AF_INET;
 			myaddr.sin_addr.s_addr = htonl(0); //equivalent to INADDR_ANY
 			myaddr.sin_port = htons(name_to_port(*it));
-			if (sendto(socketn, msg, strlen(msg), 0, (struct sockaddr *)&myaddr, (socklen_t)sizeof(myaddr)) < 0)	
+			if (sendto(socketn, msg, strlen(msg), 0, (struct sockaddr *)&myaddr, (socklen_t)sizeof(myaddr)) < 0)
 			{
 				std::cout<<server_name<<" fail to send msg to "<<*it<<std::endl;
 				exit(1);

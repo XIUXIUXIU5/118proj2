@@ -25,7 +25,6 @@ Neighbors:
 
 start-router
 
-
 select broadcast 0
 broadcast
 A send dv to B
