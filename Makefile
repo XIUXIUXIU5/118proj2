@@ -2,7 +2,7 @@
 
 # Global variables
 CC = g++
-CCFLAGS = -c -Wall -std=c++11
+CCFLAGS = -c -Wall -std=c++0x
 
 # Define executable name
 BIN = router
