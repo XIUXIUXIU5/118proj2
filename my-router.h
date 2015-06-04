@@ -32,10 +32,10 @@ class router
 		void run_router();
 
 	private:
-		std::unordered_map<char, int> dv; //distance std::vector: map dest name to cost
-		std::unordered_map<char, routing_info> rt; //routing table: map dest name to struct of info
-		std::vector<char> nb; //neighbors
-		std::unordered_map<char, int> link_costs;
+		std::unordered_map<char,int > dv; //distance std::vector: map dest name to cost
+		std::unordered_map<char, routing_info > rt; //routing table: map dest name to struct of info
+		std::vector<char > nb; //neighbors
+		std::unordered_map<char, int > link_costs;
 		int s; //socket
 		std::string file; //topology file
 
