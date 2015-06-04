@@ -11,6 +11,7 @@
 #include <sstream>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #define BUFSIZE 1024
 
