@@ -7,7 +7,7 @@ Routing Table:
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
 	Next hop: E
 RouterB
 	Cost: 3
@@ -36,7 +36,7 @@ Waiting on port: 10000
 Recieved 19 bytes
 
 Recieved updated DV from B
-Timestamp: 1433378318
+Timestamp: 1433383645
 Routing table before change
 RouterB
 	Cost: 3
@@ -46,7 +46,7 @@ RouterB
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
 	Next hop: E
 
 DV that caused change
@@ -69,7 +69,7 @@ RouterF
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
 	Next hop: E
 RouterB
 	Cost: 3
@@ -81,6 +81,10 @@ propagated DV to router B
 propagated DV to router E
 select recieving
 Waiting on port: 10000
+Recieved 15 bytes
+
+select recieving
+Waiting on port: 10000
 Recieved 19 bytes
 
 select recieving
@@ -88,7 +92,7 @@ Waiting on port: 10000
 Recieved 23 bytes
 
 Recieved updated DV from B
-Timestamp: 1433378318
+Timestamp: 1433383645
 Routing table before change
 RouterB
 	Cost: 3
@@ -98,7 +102,7 @@ RouterB
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
 	Next hop: E
 RouterF
 	Cost: 4
@@ -137,7 +141,7 @@ RouterF
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
 	Next hop: E
 RouterB
 	Cost: 3
@@ -151,8 +155,8 @@ select recieving
 Waiting on port: 10000
 Recieved 23 bytes
 
-Recieved updated DV from B
-Timestamp: 1433378318
+Recieved updated DV from E
+Timestamp: 1433383645
 Routing table before change
 RouterB
 	Cost: 3
@@ -162,7 +166,7 @@ RouterB
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
 	Next hop: E
 RouterF
 	Cost: 4
@@ -179,6 +183,75 @@ RouterD
 	Outgoing port: 10000
 	Destination port: 10003
 	Next hop: B
+
+DV that caused change
+Router A, Cost 1
+Router F, Cost 3
+Router B, Cost 2
+Router C, Cost 4
+Router D, Cost 6
+
+New routing table
+RouterD
+	Cost: 7
+	Outgoing port: 10000
+	Destination port: 10003
+	Next hop: E
+RouterC
+	Cost: 5
+	Outgoing port: 10000
+	Destination port: 10002
+	Next hop: E
+RouterF
+	Cost: 4
+	Outgoing port: 10000
+	Destination port: 10005
+	Next hop: B
+RouterE
+	Cost: 1
+	Outgoing port: 10000
+	Destination port: 10004
+	Next hop: E
+RouterB
+	Cost: 3
+	Outgoing port: 10000
+	Destination port: 10001
+	Next hop: B
+
+propagated DV to router B
+propagated DV to router E
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+Recieved updated DV from B
+Timestamp: 1433383645
+Routing table before change
+RouterB
+	Cost: 3
+	Outgoing port: 10000
+	Destination port: 10001
+	Next hop: B
+RouterE
+	Cost: 1
+	Outgoing port: 10000
+	Destination port: 10004
+	Next hop: E
+RouterF
+	Cost: 4
+	Outgoing port: 10000
+	Destination port: 10005
+	Next hop: B
+RouterC
+	Cost: 5
+	Outgoing port: 10000
+	Destination port: 10002
+	Next hop: E
+RouterD
+	Cost: 7
+	Outgoing port: 10000
+	Destination port: 10003
+	Next hop: E
 
 DV that caused change
 Router A, Cost 3
@@ -206,7 +279,7 @@ RouterF
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
 	Next hop: E
 RouterB
 	Cost: 3
@@ -214,21 +287,11 @@ RouterB
 	Destination port: 10001
 	Next hop: B
 
-propagated DV to router B
-propagated DV to router E
-select recieving
-Waiting on port: 10000
-Recieved 23 bytes
-
 
 select broadcast 1
 broadcast
 A send dv to B
 A send dv to E
-
-select recieving
-Waiting on port: 10000
-Recieved 23 bytes
 
 select recieving
 Waiting on port: 10000
@@ -281,10 +344,6 @@ select broadcast 5
 broadcast
 A send dv to B
 A send dv to E
-
-select recieving
-Waiting on port: 10000
-Recieved 23 bytes
 
 select recieving
 Waiting on port: 10000
@@ -412,12 +471,106 @@ select recieving
 Waiting on port: 10000
 Recieved 23 bytes
 
+
+select broadcast 15
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+
+select broadcast 16
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+
+select broadcast 17
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+
+select broadcast 18
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+
+select broadcast 19
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+
+select broadcast 20
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
+
+select broadcast 21
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 23 bytes
+
 select recieving
 Waiting on port: 10000
 Recieved 5 bytes
 
 Recieved death message from B
-Timestamp: 1433378388
+Timestamp: 1433383750
 Packet arrived from port: 10001
 broadcast
 A send death msg to B
@@ -428,7 +581,7 @@ Waiting on port: 10000
 Recieved 15 bytes
 
 Recieved updated DV from B
-Timestamp: 1433378388
+Timestamp: 1433383750
 Routing table before change
 RouterB
 	Cost: 3
@@ -438,24 +591,77 @@ RouterB
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
 	Next hop: E
 
 DV that caused change
 Router A, Cost 3
-Router F, Cost 1
+Router C, Cost 3
 Router E, Cost 2
 
 New routing table
-RouterF
-	Cost: 4
+RouterC
+	Cost: 6
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10002
 	Next hop: B
 RouterE
 	Cost: 1
 	Outgoing port: 10000
-	Destination port: 10005
+	Destination port: 10004
+	Next hop: E
+RouterB
+	Cost: 3
+	Outgoing port: 10000
+	Destination port: 10001
+	Next hop: B
+
+propagated DV to router B
+propagated DV to router E
+select recieving
+Waiting on port: 10000
+Recieved 20 bytes
+
+Recieved updated DV from B
+Timestamp: 1433383750
+Routing table before change
+RouterB
+	Cost: 3
+	Outgoing port: 10000
+	Destination port: 10001
+	Next hop: B
+RouterE
+	Cost: 1
+	Outgoing port: 10000
+	Destination port: 10004
+	Next hop: E
+RouterC
+	Cost: 6
+	Outgoing port: 10000
+	Destination port: 10002
+	Next hop: B
+
+DV that caused change
+Router A, Cost 3
+Router C, Cost 3
+Router E, Cost 2
+Router D, Cost 10
+
+New routing table
+RouterD
+	Cost: 13
+	Outgoing port: 10000
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 6
+	Outgoing port: 10000
+	Destination port: 10002
+	Next hop: B
+RouterE
+	Cost: 1
+	Outgoing port: 10000
+	Destination port: 10004
 	Next hop: E
 RouterB
 	Cost: 3
@@ -470,181 +676,142 @@ Waiting on port: 10000
 Recieved 5 bytes
 
 Recieved death message from E
-Timestamp: 1433378388
+Timestamp: 1433383750
 Packet arrived from port: 10004
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+Recieved updated DV from B
+Timestamp: 1433383750
+Routing table before change
+RouterB
+	Cost: 3
+	Outgoing port: 10000
+	Destination port: 10001
+	Next hop: B
+RouterE
+	Cost: 1
+	Outgoing port: 10000
+	Destination port: 10004
+	Next hop: E
+RouterC
+	Cost: 6
+	Outgoing port: 10000
+	Destination port: 10002
+	Next hop: B
+RouterD
+	Cost: 13
+	Outgoing port: 10000
+	Destination port: 10003
+	Next hop: B
+
+DV that caused change
+Router A, Cost 3
+Router C, Cost 3
+Router E, Cost 2
+Router D, Cost 8
+
+New routing table
+RouterD
+	Cost: 11
+	Outgoing port: 10000
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 6
+	Outgoing port: 10000
+	Destination port: 10002
+	Next hop: B
+RouterE
+	Cost: 1
+	Outgoing port: 10000
+	Destination port: 10004
+	Next hop: E
+RouterB
+	Cost: 3
+	Outgoing port: 10000
+	Destination port: 10001
+	Next hop: B
+
+propagated DV to router B
+propagated DV to router E
+select recieving
+Waiting on port: 10000
+Recieved 15 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+Recieved updated DV from B
+Timestamp: 1433383750
+Routing table before change
+RouterB
+	Cost: 3
+	Outgoing port: 10000
+	Destination port: 10001
+	Next hop: B
+RouterE
+	Cost: 1
+	Outgoing port: 10000
+	Destination port: 10004
+	Next hop: E
+RouterC
+	Cost: 6
+	Outgoing port: 10000
+	Destination port: 10002
+	Next hop: B
+RouterD
+	Cost: 11
+	Outgoing port: 10000
+	Destination port: 10003
+	Next hop: B
+
+DV that caused change
+Router A, Cost 3
+Router C, Cost 3
+Router E, Cost 2
+Router D, Cost 5
+
+New routing table
+RouterD
+	Cost: 8
+	Outgoing port: 10000
+	Destination port: 10003
+	Next hop: B
+RouterC
+	Cost: 6
+	Outgoing port: 10000
+	Destination port: 10002
+	Next hop: B
+RouterE
+	Cost: 1
+	Outgoing port: 10000
+	Destination port: 10004
+	Next hop: E
+RouterB
+	Cost: 3
+	Outgoing port: 10000
+	Destination port: 10001
+	Next hop: B
+
+propagated DV to router B
+propagated DV to router E
 select recieving
 Waiting on port: 10000
 Recieved 20 bytes
 
-Recieved updated DV from B
-Timestamp: 1433378388
-Routing table before change
-RouterB
-	Cost: 3
-	Outgoing port: 10000
-	Destination port: 10001
-	Next hop: B
-RouterE
-	Cost: 1
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: E
-RouterF
-	Cost: 4
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: B
-
-DV that caused change
-Router A, Cost 3
-Router F, Cost 1
-Router E, Cost 2
-Router D, Cost 10
-
-New routing table
-RouterD
-	Cost: 13
-	Outgoing port: 10000
-	Destination port: 10003
-	Next hop: B
-RouterF
-	Cost: 4
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: B
-RouterE
-	Cost: 1
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: E
-RouterB
-	Cost: 3
-	Outgoing port: 10000
-	Destination port: 10001
-	Next hop: B
-
-propagated DV to router B
-propagated DV to router E
 select recieving
 Waiting on port: 10000
-Recieved 19 bytes
-
-Recieved updated DV from E
-Timestamp: 1433378388
-Routing table before change
-RouterB
-	Cost: 3
-	Outgoing port: 10000
-	Destination port: 10001
-	Next hop: B
-RouterE
-	Cost: 1
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: E
-RouterF
-	Cost: 4
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: B
-RouterD
-	Cost: 13
-	Outgoing port: 10000
-	Destination port: 10003
-	Next hop: B
-
-DV that caused change
-Router A, Cost 1
-Router F, Cost 3
-Router B, Cost 2
-Router D, Cost 6
-
-New routing table
-RouterD
-	Cost: 7
-	Outgoing port: 10000
-	Destination port: 10003
-	Next hop: E
-RouterF
-	Cost: 4
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: B
-RouterE
-	Cost: 1
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: E
-RouterB
-	Cost: 3
-	Outgoing port: 10000
-	Destination port: 10001
-	Next hop: B
-
-propagated DV to router B
-propagated DV to router E
-select recieving
-Waiting on port: 10000
-Recieved 19 bytes
+Recieved 20 bytes
 
 select recieving
 Waiting on port: 10000
 Recieved 19 bytes
 
-Recieved updated DV from B
-Timestamp: 1433378388
-Routing table before change
-RouterB
-	Cost: 3
-	Outgoing port: 10000
-	Destination port: 10001
-	Next hop: B
-RouterE
-	Cost: 1
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: E
-RouterF
-	Cost: 4
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: B
-RouterD
-	Cost: 7
-	Outgoing port: 10000
-	Destination port: 10003
-	Next hop: E
 
-DV that caused change
-Router A, Cost 3
-Router F, Cost 1
-Router E, Cost 2
-Router D, Cost 4
-
-New routing table
-RouterD
-	Cost: 7
-	Outgoing port: 10000
-	Destination port: 10003
-	Next hop: B
-RouterF
-	Cost: 4
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: B
-RouterE
-	Cost: 1
-	Outgoing port: 10000
-	Destination port: 10005
-	Next hop: E
-RouterB
-	Cost: 3
-	Outgoing port: 10000
-	Destination port: 10001
-	Next hop: B
-
-
-select broadcast 15
+select broadcast 22
 broadcast
 A send dv to B
 A send dv to E
@@ -658,7 +825,7 @@ Waiting on port: 10000
 Recieved 19 bytes
 
 
-select broadcast 16
+select broadcast 23
 broadcast
 A send dv to B
 A send dv to E
@@ -672,7 +839,7 @@ Waiting on port: 10000
 Recieved 19 bytes
 
 
-select broadcast 17
+select broadcast 24
 broadcast
 A send dv to B
 A send dv to E
@@ -686,7 +853,7 @@ Waiting on port: 10000
 Recieved 19 bytes
 
 
-select broadcast 18
+select broadcast 25
 broadcast
 A send dv to B
 A send dv to E
@@ -700,7 +867,7 @@ Waiting on port: 10000
 Recieved 19 bytes
 
 
-select broadcast 19
+select broadcast 26
 broadcast
 A send dv to B
 A send dv to E
@@ -714,7 +881,73 @@ Waiting on port: 10000
 Recieved 19 bytes
 
 
-select broadcast 20
+select broadcast 27
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+
+select broadcast 28
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+
+select broadcast 29
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+
+select broadcast 30
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+
+select broadcast 31
+broadcast
+A send dv to B
+A send dv to E
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+select recieving
+Waiting on port: 10000
+Recieved 19 bytes
+
+
+select broadcast 32
 broadcast
 A send dv to B
 A send dv to E

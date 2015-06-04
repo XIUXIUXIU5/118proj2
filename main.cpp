@@ -1,10 +1,10 @@
 #include "my-router.h"
 #include <sys/socket.h>
+#include <sys/types.h>
 #include <netinet/in.h>
 #include <iostream>
 #include <string>
 #include <cstring>
-using namespace std;
 
 #define PORT 12005
 #define BUFSIZE 1024
@@ -37,7 +37,7 @@ int client(char src, char dest, char inject_to)
 	struct sockaddr_in servaddr; //client's info
 
 	if((s = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-		cerr << "cannot create socket" << endl;
+		std::cerr << "cannot create socket" << std::endl;
 		return 0;
 	} 
 
@@ -45,13 +45,13 @@ int client(char src, char dest, char inject_to)
 	myaddr.sin_addr.s_addr = htonl(0); //equivalent to INADDR_ANY
 	myaddr.sin_port = htons(PORT);
 	if(bind(s,(struct sockaddr *)&myaddr, sizeof(myaddr)) < 0) {
-		cerr << "bind failed" << endl;
+		std::cerr << "bind failed" << std::endl;
 		return 0;
 	}
 
 
 	//P-SRCNODE|DESTNODE|DATA
-	string t_msg = "P-E|F|hi there, what's up!!";
+	std::string t_msg = "P-E|F|hi there, what's up!!";
 	t_msg[2] = src;
 	t_msg[4] = dest;
 
@@ -60,7 +60,7 @@ int client(char src, char dest, char inject_to)
 	servaddr.sin_port = htons(get_port(inject_to)); //s
 	servaddr.sin_addr.s_addr = htonl(0x7F000001);
 	if(sendto(s,msg,strlen(msg),0,(struct sockaddr *)&servaddr,sizeof(servaddr)) < 0) {
-		cout << "send message failed" << endl;
+		std::cout << "send message failed" << std::endl;
 		return 0;
 	}
 
