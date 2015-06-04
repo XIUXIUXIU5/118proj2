@@ -2,19 +2,20 @@
 #include <cstdio>
 #include <time.h>
 #include <sys/time.h>
+#include <cstring>
 
 #define BUFSIZE 1024
 
-void router::print_dv(mapc_int* rdv)
+void router::print_dv(std::unordered_map<char, int>* rdv)
 {
-	for(mapc_int::iterator it = (*rdv).begin(); it != (*rdv).end(); it++)
+	for(std::unordered_map<char, int>::iterator it = (*rdv).begin(); it != (*rdv).end(); it++)
 		std::cout << "Router " << it->first << ", Cost " << it->second << std::endl;
 	std::cout << std::endl;
 }
 
-void router::print_rt(mapc_rt* rrt)
+void router::print_rt(std::unordered_map<char, routing_info>* rrt)
 {
-	for(mapc_rt::iterator it = (*rrt).begin(); it != (*rrt).end(); it++)
+	for(std::unordered_map<char, routing_info>::iterator it = (*rrt).begin(); it != (*rrt).end(); it++)
 	{
 		std::cout << "Router" << it->first << std::endl;
 		std::cout << "\tCost: " << (it->second).cost << std::endl;
@@ -42,9 +43,9 @@ void router::test()
 	// std::string msg = form_msg();
 	// std::cout << "DV msg format: " << msg << std::endl;
 
-	// mapc_int tdv = parse_msg(msg);
+	// std::unordered_map<char, int> tdv = parse_msg(msg);
 	// std::cout << "Parsed info: \n";
-	// for(mapc_int::iterator it = tdv.begin(); it != tdv.end(); it++)
+	// for(std::unordered_map<char, int>::iterator it = tdv.begin(); it != tdv.end(); it++)
 	// 	std::cout << "Router " << it->first << ", Cost " << it->second << std::endl;
 }
 
@@ -80,7 +81,7 @@ std::string router::form_msg(char type)
 
 	if(type == 'U')
 	{
-		for(mapc_int::iterator it = dv.begin(); it != dv.end(); it++)
+		for(std::unordered_map<char, int>::iterator it = dv.begin(); it != dv.end(); it++)
 		{
 			msg+='|';
 			msg+=it->first;
@@ -98,9 +99,9 @@ std::string router::form_msg(char type)
 	return msg;
 }
 
-mapc_int router::parse_msg(std::string msg)
+std::unordered_map<char, int> router::parse_msg(std::string msg)
 {
-	mapc_int rcvd_dv; //to create dv sent over
+	std::unordered_map<char, int> rcvd_dv; //to create dv sent over
 	std::stringstream ss(msg);
 	std::string pair,elem; //to store key value pairs
 	bool c=true; //for switching
@@ -127,7 +128,7 @@ mapc_int router::parse_msg(std::string msg)
 	return rcvd_dv;
 }
 
-bool router::update_rt(char sender_name, mapc_int* rcvd_dv) 
+bool router::update_rt(char sender_name, std::unordered_map<char, int>* rcvd_dv) 
 {
     // Get the node information
     int costFromTable, newCost, currentCost;
@@ -137,7 +138,7 @@ bool router::update_rt(char sender_name, mapc_int* rcvd_dv)
     int costToNode = link_costs[sender_name]; //THIS has to be link cost!!
 
     // Iterate over the distance vector
-    mapc_int::iterator it;
+    std::unordered_map<char, int>::iterator it;
     for(it = (*rcvd_dv).begin(); it != (*rcvd_dv).end(); it++) 
     {
         currentNode = it->first; //sender to curr node
@@ -186,7 +187,7 @@ bool router::update_dv()
 	//if everything up to date, return false
 	bool prop = false;
 
-	for(mapc_rt::iterator it = rt.begin(); it != rt.end(); it++)
+	for(std::unordered_map<char, routing_info>::iterator it = rt.begin(); it != rt.end(); it++)
 	{
 		if(dv[it->first] != (it->second).cost)
 		{
@@ -202,8 +203,8 @@ void router::handle_dv_update(std::string msg, char sender_name)
 	updates[sender_name]+=1; //to check for dropped msg
 	//std::cout << "Printing update counts" << std::endl;
 	//print_dv(&updates);
-	mapc_int rcvd_dv = parse_msg(msg); //get the sent DV
-	mapc_rt temp_old_rt(rt); //in case we need to print old rt
+	std::unordered_map<char, int> rcvd_dv = parse_msg(msg); //get the sent DV
+	std::unordered_map<char, routing_info> temp_old_rt(rt); //in case we need to print old rt
 
 	bool rt_changed = update_rt(sender_name, &rcvd_dv);
 	bool update_nb = update_dv();
@@ -259,7 +260,7 @@ void router::handle_forward_msg(std::string msg, char sender_name)
 	}
 	msg[2] = server_name; //update packet to send
 
-	mapc_rt::iterator it = rt.find(destination);
+	std::unordered_map<char, routing_info>::iterator it = rt.find(destination);
 	if (it != rt.end())
 	{
 		struct sockaddr_in normal_msg;
@@ -358,7 +359,7 @@ void router::initialize()
 
 	std::string line, item;
 	routing_info* temp;
-	vstring fields(4,"");
+	std::vector<std::string> fields(4,"");
 	int c=0;
 	while(getline(tp_info, line))
 	{
@@ -367,7 +368,7 @@ void router::initialize()
 			continue;
 
 		//skip dead routers
-		vchar::iterator it = std::find(dr.begin(),dr.end(),line[2]);
+		std::vector<char>::iterator it = std::find(dr.begin(),dr.end(),line[2]);
 		if(it != dr.end())
 			continue;
 
@@ -527,7 +528,7 @@ void router::broadcast(char type)
     	exit(1);
     }
 
-	for(vchar::iterator it = nb.begin(); it != nb.end(); it++)
+	for(std::vector<char>::iterator it = nb.begin(); it != nb.end(); it++)
 	{
 			struct sockaddr_in myaddr;
 			memset(&myaddr, 0, sizeof(myaddr));
