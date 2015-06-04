@@ -308,7 +308,10 @@ void router::handle_death_msg(std::string msg, char sender_name)
 	}
 
 	if(any_new) //if any new dead vectors, restart
+	{
 		initialize();
+		broadcast('D');
+	}
 }
 
 void router::handle_msg(char* t_msg, int msg_len)
@@ -404,7 +407,7 @@ void router::check_dead()
 
 	for(int i=0; i<nb.size(); i++)
 	{
-		if(updates[nb[i]] < (avg_updates-2)) //may need to change delta
+		if(updates[nb[i]] < (avg_updates-3)) //may need to change delta
 		{
 			dr.push_back(nb[i]);
 			std::cout << "Router " << nb[i] << " died" << std::endl;
