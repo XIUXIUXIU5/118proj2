@@ -3,6 +3,7 @@
 #include <netinet/in.h>
 #include <iostream>
 #include <string>
+#include <cstring>
 using namespace std;
 
 #define PORT 12005
