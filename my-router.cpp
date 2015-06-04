@@ -94,7 +94,7 @@ std::string router::form_msg(char type)
 		{
 			msg+='|';
 			msg+=it->first;
-			msg+='/'+std::to_string(it->second);	
+			msg+='/'+std::to_string((long long int)it->second);	
 		}
 	}
 	else //death msg
