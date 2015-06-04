@@ -3,6 +3,14 @@
 #include <time.h>
 #include <sys/time.h>
 #include <cstring>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <iostream>
+#include <unordered_map>
+#include <fstream>
+#include <sstream>
+#include <vector>
+#include <string>
 
 #define BUFSIZE 1024
 
